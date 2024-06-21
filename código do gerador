@@ -1,0 +1,74 @@
+import random
+
+def Letras_minusculas(senha):
+    letras_minusculas = 'abcdefghijklmnopqrstuvwxyzç'
+    senha.append(random.choice(letras_minusculas))
+
+def Letras_maiusculas(senha):
+    letras_maiusculas = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ'
+    senha.append(random.choice(letras_maiusculas))
+
+def Letras_aleatorias(senha):
+    letras = 'abcdefghijklmnopqrstuvwxyzçABCDEFGHIJKLMNOPQRSTUVWXYZÇ'
+    senha.append(random.choice(letras))
+
+def Simbolos(senha):
+    simbolos = '!@#$%¨&?/+-*'
+    senha.append(random.choice(simbolos))
+
+def Numeros(senha):
+    numeros = '0123456789'
+    senha.append(random.choice(numeros))
+
+print("Digite o tipo de senha que você quer:")
+tipo_da_senha = int(input(
+    "Senha com apenas letras(1)\n"
+    "Senha com apenas números(2)\n"
+    "Senha com apenas símbolos(3)\n"
+    "Senha com letras e números(4)\n"
+    "Senha com letras e símbolos(5)\n"
+    "Senha com números e símbolos (6)\n"
+    "Senha com letras, números e símbolos(7)\n"
+))
+
+tipo_de_letra = None
+if tipo_da_senha in {1, 4, 5, 7}:
+    tipo_de_letra = int(input(
+        "As letras devem ser:\n"
+        "Apenas maiúsculas (1)\n"
+        "Apenas minúsculas (2)\n"
+        "Aleatório (3)\n"
+    ))
+
+tamanho_da_senha = int(input("Digite quantos dígitos você quer na senha: "))
+senha = []
+
+funcoes = {
+    1: [Letras_maiusculas, Letras_minusculas, Letras_aleatorias],
+    2: [Numeros],
+    3: [Simbolos],
+    4: [Numeros, Letras_maiusculas, Letras_minusculas, Letras_aleatorias],
+    5: [Simbolos, Letras_maiusculas, Letras_minusculas, Letras_aleatorias],
+    6: [Numeros, Simbolos],
+    7: [Simbolos, Numeros, Letras_maiusculas, Letras_minusculas, Letras_aleatorias]
+}
+
+for i in range(tamanho_da_senha):
+    if tipo_da_senha in {1, 4, 5, 7}:
+        if tipo_de_letra == 1:
+            funcao_aleatoria = Letras_maiusculas
+        elif tipo_de_letra == 2:
+            funcao_aleatoria = Letras_minusculas
+        elif tipo_de_letra == 3:
+            funcao_aleatoria = Letras_aleatorias
+        if tipo_da_senha == 4:
+            funcao_aleatoria = random.choice([Numeros, funcao_aleatoria])
+        elif tipo_da_senha == 5:
+            funcao_aleatoria = random.choice([Simbolos, funcao_aleatoria])
+        elif tipo_da_senha == 7:
+            funcao_aleatoria = random.choice([Simbolos, Numeros, funcao_aleatoria])
+    else:
+        funcao_aleatoria = random.choice(funcoes[tipo_da_senha])
+    funcao_aleatoria(senha)
+
+print(''.join(senha))
