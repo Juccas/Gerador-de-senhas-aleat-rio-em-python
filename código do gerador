@@ -1,25 +1,32 @@
 import random
+import string
 
 def Letras_minusculas(senha):
-    letras_minusculas = 'abcdefghijklmnopqrstuvwxyzç'
-    senha.append(random.choice(letras_minusculas))
+    senha.append(random.choice(string.ascii_lowercase))
 
 def Letras_maiusculas(senha):
-    letras_maiusculas = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ'
-    senha.append(random.choice(letras_maiusculas))
+    senha.append(random.choice(string.ascii_uppercase))
 
 def Letras_aleatorias(senha):
-    letras = 'abcdefghijklmnopqrstuvwxyzçABCDEFGHIJKLMNOPQRSTUVWXYZÇ'
-    senha.append(random.choice(letras))
+    senha.append(random.choice(string.ascii_uppercase+string.ascii_lowercase))
 
 def Simbolos(senha):
-    simbolos = '!@#$%¨&?/+-*'
-    senha.append(random.choice(simbolos))
+    senha.append(random.choice(string.punctuation))
 
 def Numeros(senha):
-    numeros = '0123456789'
-    senha.append(random.choice(numeros))
+    senha.append(random.choice(string.digits))
 
+def Encrypt(senha):
+    chars = list(string.ascii_uppercase + string.ascii_lowercase + string.punctuation + string.digits)
+    keys = chars.copy()
+    random.shuffle(keys)
+    text_encrypt = ""
+    for letter in list(senha):
+        index = chars.index(letter)
+        text_encrypt += keys[index]
+    print(f"Senha criptografada: {text_encrypt} ")
+
+senha = []
 print("Digite o tipo de senha que você quer:")
 tipo_da_senha = int(input(
     "Senha com apenas letras(1)\n"
@@ -32,6 +39,7 @@ tipo_da_senha = int(input(
 ))
 
 tipo_de_letra = None
+
 if tipo_da_senha in {1, 4, 5, 7}:
     tipo_de_letra = int(input(
         "As letras devem ser:\n"
@@ -41,7 +49,6 @@ if tipo_da_senha in {1, 4, 5, 7}:
     ))
 
 tamanho_da_senha = int(input("Digite quantos dígitos você quer na senha: "))
-senha = []
 
 funcoes = {
     1: [Letras_maiusculas, Letras_minusculas, Letras_aleatorias],
@@ -71,4 +78,7 @@ for i in range(tamanho_da_senha):
         funcao_aleatoria = random.choice(funcoes[tipo_da_senha])
     funcao_aleatoria(senha)
 
-print(''.join(senha))
+Encrypt(senha)
+
+print("Senha original: " + ''.join(senha))
+
